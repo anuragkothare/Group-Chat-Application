@@ -26,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 
 
+
+
 const modelsPath = './app/models';
 const controllersPath = './app/controllers';
 const libsPath = './app/libs';
@@ -141,7 +143,7 @@ mongoose.connection.on('error', function (err) {
     'mongoose connection on error handler', 10)
   //process.exit(1)
 }); // end mongoose connection error
-
+ 
 mongoose.connection.on('open', function (err) {
   if (err) {
     console.log("database error");
