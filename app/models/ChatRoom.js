@@ -16,9 +16,9 @@ let chatRoomSchema = new Schema({
     type: String,
     default: ''
   },
-  admin: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  adminId: {
+    type: String,
+    default: ''
   },
   status: {
     type: Boolean,

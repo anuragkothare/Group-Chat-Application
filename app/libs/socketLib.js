@@ -17,7 +17,15 @@ const ChatRoom = mongoose.model('ChatRoom');
 let setServer = (server) => {
 
     let allOnlineUsers = []
-    let allRooms = []
+    let allRooms = [
+        {
+            roomId: 'hfhsf99d9',
+            adminId: 'admin27723',
+            roomName: 'MY GRO Room',
+            status: true,
+            
+        }
+    ]
 
     let io = socketio.listen(server);
 
@@ -50,15 +58,15 @@ let setServer = (server) => {
                     console.log(`${fullName} is online`);
 
 
-                    let userObj = {userId:currentUser.userId,fullName:fullName}
-                    allOnlineUsers.push(userObj)
-                    console.log(allOnlineUsers)
+                    // let userObj = {userId:currentUser.userId,fullName:fullName}
+                    // allOnlineUsers.push(userObj)
+                    // console.log(allOnlineUsers)
 
-                    // setting room name
-                    socket.room = 'edChat'
-                    // joining chat-group room.
-                    socket.join(socket.room)
-                    socket.to(socket.room).broadcast.emit('online-user-list',allOnlineUsers);
+                    // // setting room name
+                    // socket.room = 'edChat'
+                    // // joining chat-group room.
+                    // socket.join(socket.room)
+                    // socket.to(socket.room).broadcast.emit('online-user-list',allOnlineUsers);
                 }
             })
           
@@ -86,7 +94,7 @@ let setServer = (server) => {
 
         // Listeneing Event New-Messsage after checking the the roomId is present in the allRoooms array
         socket.on('New-Message', (message) => {
-            if(socket.roomId && allRooms.inculdes(socketId.roomId)) {
+            if(socket.roomId && allRooms.inculdes(socket.roomId)) {
                 // var index = this.allRooms.indexOf(socketId.roomId)
                 // if(index !== -1) array.splice(index, 1)
                 io.in(socket.roomId).emit('Send-Message', {
@@ -130,7 +138,7 @@ let setServer = (server) => {
                 let rooms = Object.keys(socket.rooms);
                 // console.log(rooms); // [ <socket.id>, 'room 237' ]
                 var chatMessages = []
-                ChatModel.find({ 'chatRoom': socket.currentRoom }, (err,messages) => {
+                ChatModel.find({ 'roomId': socket.currentRoom }, {'_id':0}, (err,messages) => {
                     if(err) {
                         callback(err,null)
                     }
@@ -199,10 +207,10 @@ let setServer = (server) => {
 
                 let roomObj = {
                     roomId: socket.currentRoom,
-                    title: data.roomTitle,
+                    chatRoomName: data.roomTitle,
                     roomName: data.roomName,
-                    admin: socket.userId,
-                    isActive: true
+                    adminId: socket.userId,
+                    status: true
                 }
                 allRooms.push(roomObj)
                 console.log('Room created with admin  ' + roomObj.admin)
@@ -218,7 +226,7 @@ let setServer = (server) => {
             }
         } 
         )
-
+        //TODO FIX ME // It should be inside authentication listener
         socket.emit('active-rooms', allRooms)
 
         socket.on('chat-msg', (data) => {
@@ -226,18 +234,18 @@ let setServer = (server) => {
             if(socket.currentRoom) {
                 var chatRooms = allRooms.map((room => {return room.roomId}))
                 var ind = chatRooms.indexOf(socket.currentRoom)
-                if(ind>=0 && allRooms[ind].isActive===true && data.text !== null) {
+                if(ind>=0 && allRooms[ind].isActive===true && data.message !== null) {
                     console.log("socket chat-msg called")
                     data['chatId'] = shortid.generate()
                     data['roomId'] = socket.currentRoom 
-                    data['userId'] = socket.userId
-                    data['userName'] = socket.userName
-                    console.log(data.text);
+                    data['senderId'] = socket.userId
+                    data['senderName'] = socket.userName
+                    console.log(data.message);
 
                     setTimeout(function(){
                         eventEmitter.emit('save-chat', data);
                     },2000)
-                    myIo.to(socket.currentRoom).emit('get-chat-msg',data)
+                    myIo.to(socket.currentRoom).emit('new-message-broadcast',data)
                 }
             }
             // event to save chat.
@@ -267,10 +275,10 @@ eventEmitter.on('save-chat', (data) => {
     let newChat = new ChatModel({
 
         chatId: data.chatId,
-        senderName: data.userName,
-        senderId: data.userId,
-        message: data.text,
-        chatRoom: data.roomId || ''
+        senderName: data.senderName,
+        senderId: data.senderId,
+        message: data.message,
+        roomId: data.roomId || ''
 
     });
 

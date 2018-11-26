@@ -1,7 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {MatCheckboxModule} from '@angular/material';
-import { MatFormFieldModule } from '@angular/material';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
+// import {SocketService} from './services/socket/socket.service'
+
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -9,10 +12,23 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import {routingModule} from '../app/app-routing';
-import {
-  MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
-  MatToolbarModule, MatMenuModule,MatIconModule, MatProgressSpinnerModule
+
+
+// angular Material
+import { 
+  MatButtonModule, 
+  MatCardModule,
+  MatDialog,
+  MatDialogModule,
+  MatIconModule, 
+  MatFormFieldModule,
+  MatInputModule, 
+  MatListModule,
+  MatSidenavModule, 
+  MatToolbarModule, 
 } from '@angular/material';
+
+
 
 
 
@@ -21,13 +37,15 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './user/register/register.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './user/login/login.component';
+import { ChatComponent, DialogOverviewExampleDialog } from './chat/chat/chat.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
-    
+    LoginComponent,
+    ChatComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,                               // <========== Add this line!
@@ -35,14 +53,11 @@ import { LoginComponent } from './user/login/login.component';
     FormsModule,
     ReactiveFormsModule,
     MatToolbarModule,
-    MatButtonModule, 
+    MatButtonModule,
+    MatDialogModule,
     MatCardModule,
     MatInputModule,
-    MatDialogModule,
-    MatTableModule,
-    MatMenuModule,
     MatIconModule,
-    MatProgressSpinnerModule,
     CommonModule,
     RouterModule.forRoot([]),
     routingModule,
@@ -50,14 +65,40 @@ import { LoginComponent } from './user/login/login.component';
     MatButtonModule,
     MatCheckboxModule,
     MatFormFieldModule,
+    CdkTableModule,
+    CdkTreeModule,
     MatInputModule,
     HttpModule,
     HttpClientModule,
-    // ErrorStateMatcher
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatListModule,
+    MatSidenavModule, 
+    MatToolbarModule,
     
+    // ErrorStateMatcher
   ],
+  exports: [
+    MatButtonModule, 
+    MatCardModule,
+    MatDialogModule,
+    MatIconModule, 
+    MatFormFieldModule,
+    MatInputModule, 
+    MatListModule,
+    MatSidenavModule, 
+    MatToolbarModule, 
+  ],
+  
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogOverviewExampleDialog]
 })
+
 export class AppModule { }

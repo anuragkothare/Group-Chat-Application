@@ -1,0 +1,60 @@
+
+<br>
+<br>
+  
+<div class="row container-fluid">
+    <div class=" container col-md-4 col-sm-8">
+      
+      <mat-card>
+          <button mat-fab (click)="openDialog()">
+          <mat-icon>group</mat-icon>
+        </button>
+          <mat-card-title>
+            Chat Rooms
+          </mat-card-title>
+          <mat-nav-list>
+              <mat-list-item *ngFor="let room of chatRooms">
+                 <a matLine (click)="joinRoom(room.roomId)">{{ room.roomName }}</a>
+                 <button mat-icon-button (click)="showInfo(link)">
+                    <mat-icon>group</mat-icon>
+                 </button>
+              </mat-list-item>
+            </mat-nav-list>
+      </mat-card>
+    </div>
+    
+    <div class="col-md-8 col-sm-4 chat-container">
+      
+            <mat-card class="main-card">
+                <mat-card-title>
+                    Chat Box
+                  </mat-card-title>
+
+                <mat-list>
+                    <mat-list-item *ngFor="let message of messages">
+                        <img matListAvatar src="https://api.adorable.io/avatars/23" alt="...">
+                      <h3 matLine> {{message}} </h3>
+                      <p matLine>
+                        <span> {{message}} </span>
+                        <span class="demo-2"> -- {{message}} </span>
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+              
+              <div class="chat-footer-container">
+                <mat-icon>message</mat-icon>
+                <mat-form-field class="chat-input">
+                  <input matInput 
+                         #inputMessage 
+                         maxlength="140" 
+                         placeholder="Type your message" 
+                         [(ngModel)]="messageContent" 
+                         (keyup.enter)="sendMessage(messageContent)">
+                  <mat-hint align="end">{{inputMessage.value.length}}/140</mat-hint>
+                </mat-form-field>
+              </div>
+            </mat-card>
+
+    </div>
+
+</div>

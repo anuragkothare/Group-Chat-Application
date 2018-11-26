@@ -2,18 +2,26 @@
 <br><br><br>
 
 <br><br>
-<div class="container col-md-5">
+<div class=" container row">
+  <div class="col-md-8 image col-sm-12">
+        <img class="welcome" src="../../../assets/chat.png" alt="">
+  </div>
+  
+  
+  <div class="col-md-4 col-sm-12" layout-align="center center">
     <mat-card class="example-card">
+      
         <mat-card-header>
-          <mat-card-title>Login</mat-card-title>
+          <mat-card-title><h3>Login To Chat</h3></mat-card-title>
         </mat-card-header>
+
         <mat-card-content>
           <form class="example-form">
             <table class="example-full-width" cellspacing="0">
               <tr>
                 <td>
                   <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+                  <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
                   </mat-form-field>
                 </td>
               </tr>
@@ -26,8 +34,17 @@
           <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button (click)="login()" color="primary">Login</button>
+          <button mat-raised-button (click)="onSubmit()" color="primary">Login</button>
         </mat-card-actions>
+        <mat-divider></mat-divider>
+      
+        <mat-list><h4><a href="/register">Register For Chat App</a></h4></mat-list>
+
       </mat-card>
+  </div>
+
+  
+  
 
 </div>
+

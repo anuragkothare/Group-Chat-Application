@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Create Group</h1>
+<div mat-dialog-content>
+  <p>Enter Group Name</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="chatRoomName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="chatRoomName" cdkFocusInitial>Ok</button>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
-import { User } from '../../User/User';
+import { User } from '../../Models/User';
 import { LoginService } from '../../services/user/login.service';
 import { Router } from '@angular/router';
 
@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
     this._service.registerUser(this.user).subscribe(
       (data: any) => {
         console.log(data);
+        this._router.navigate(['/login'])
 
       },
       error => {
